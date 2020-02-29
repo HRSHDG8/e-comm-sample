@@ -1,25 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FunctionComponent, useState } from 'react';
+import Header from './component/header/Header';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { grey, blue, } from '@material-ui/core/colors';
+import Footer from './component/footer/Footer';
+import Body from './component/body/Body';
+const dark = createMuiTheme({
+  palette: {
+    primary: {
+      main: blue[900],
+    },
+    secondary: {
+      main: blue[500]
+    }
+  },
+});
 
-function App() {
+const light = createMuiTheme({
+  palette: {
+    secondary: {
+      main: grey[100],
+    },
+  },
+});
+const App: FunctionComponent = () => {
+  const [user, setUser] = useState('');
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={dark}>
+      <Header user={user} />
+      <ThemeProvider theme={light}>
+        <Body setUser={setUser} />
+      </ThemeProvider>
+      <Footer />
+    </ThemeProvider >
   );
 }
 
