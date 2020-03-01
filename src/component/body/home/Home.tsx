@@ -1,15 +1,19 @@
 import React, { FunctionComponent, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import LandingView from './LandingView';
+import LeftNavigation from '../leftNav/LeftNavigation';
 
 const Home: FunctionComponent<any> = (props: any) => {
     useEffect(() => {
         if (localStorage.getItem("user-id") === null) {
-            window.location.href = "login";
-        } else {
-            props.setUser(localStorage.getItem("user-id"));
+            props.history.push("login");
         }
     })
     return (
-        <div>Home</div>
+        <>
+            <LeftNavigation open={props.open} setOpen={props.setOpen} />
+            {props.product ? <span>Product : {props.product}</span> : <LandingView />}
+        </>
     )
 }
-export default Home;
+export default withRouter(Home);

@@ -2,13 +2,14 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import { blue, red } from '@material-ui/core/colors';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import _ from 'lodash';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { blue, red } from '@material-ui/core/colors';
+import { withRouter } from 'react-router-dom';
 import banner from '../../../images/e-comm.jpg';
 import { validUser } from '../../../store/AuthenticationStore';
-import _ from 'lodash';
 const useClasses = makeStyles((theme: Theme) =>
     createStyles({
         textRoot: {
@@ -45,16 +46,14 @@ const useStyles = makeStyles({
         right: '50%'
     }
 });
-interface LoginProps {
-    setUser: Function
-}
-const Login: FunctionComponent<LoginProps> = ({ setUser }) => {
+
+const Login: FunctionComponent<any> = ({ setUser, history }) => {
     const classes = {
         ...useStyles(), ...useClasses()
-    };
+    }
     useEffect(() => {
         if (localStorage.getItem("user-id") !== null) {
-            window.location.href = "/";
+            history.push("/");
         }
     })
     const [userName, setUserName] = useState('');
@@ -91,7 +90,7 @@ const Login: FunctionComponent<LoginProps> = ({ setUser }) => {
             if (!_.isEmpty(user) && user?.password === btoa(password)) {
                 localStorage.setItem("user-id", user.userName);
                 setUser(user.userName);
-                window.location.href = '/';
+                history.push('/');
 
             } else {
                 setLoginMessage('Invalid User Name or Password');
@@ -99,6 +98,7 @@ const Login: FunctionComponent<LoginProps> = ({ setUser }) => {
         }
 
     }
+
     return (
         <>
             <div style={{ width: "100%", height: "30%", background: blue[300] }}></div>
@@ -125,4 +125,4 @@ const Login: FunctionComponent<LoginProps> = ({ setUser }) => {
         </>
     )
 }
-export default Login;
+export default withRouter(Login);

@@ -8,16 +8,22 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { createStyles, fade, makeStyles, Theme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
+import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import React, { FunctionComponent } from 'react';
+import { withRouter } from 'react-router-dom';
+import clsx from 'clsx';
 const useClasses = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
         minWidth: 300,
+    },
+    hide: {
+        display: 'none',
     },
     lable: {
         transform: 'translate(0,9px) scale(1)'
@@ -26,6 +32,9 @@ const useClasses = makeStyles(theme => ({
         margin: '0 !important'
     }
 }));
+
+const drawerWidth = 240;
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         grow: {
@@ -87,12 +96,25 @@ const useStyles = makeStyles((theme: Theme) =>
                 display: 'none',
             },
         },
+        appBar: {
+            zIndex: theme.zIndex.drawer + 1,
+            transition: theme.transitions.create(['width', 'margin'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+        },
+        appBarShift: {
+            marginLeft: drawerWidth,
+            width: `calc(100% - ${drawerWidth}px)`,
+            transition: theme.transitions.create(['width', 'margin'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        },
     }),
 );
-interface HeaderProps {
-    user: string;
-}
-const Header: FunctionComponent<HeaderProps> = ({ user }) => {
+
+const Header: FunctionComponent<any> = ({ user, setUser, history, open, setOpen }) => {
     const classes = { ...useStyles(), ...useClasses() };
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -113,6 +135,13 @@ const Header: FunctionComponent<HeaderProps> = ({ user }) => {
         handleMobileMenuClose();
     };
 
+    const handleLogout = () => {
+        handleMenuClose();
+        localStorage.removeItem('user-id');
+        setUser('');
+        history.push('login');
+    };
+
     const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
@@ -130,6 +159,7 @@ const Header: FunctionComponent<HeaderProps> = ({ user }) => {
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
     );
 
@@ -150,7 +180,7 @@ const Header: FunctionComponent<HeaderProps> = ({ user }) => {
                         <ShoppingCartIcon />
                     </Badge>
                 </IconButton>
-                <p>Messages</p>
+                <p>Cart</p>
             </MenuItem>
             <MenuItem>
                 <IconButton aria-label="show 11 new notifications" color="inherit">
@@ -175,13 +205,30 @@ const Header: FunctionComponent<HeaderProps> = ({ user }) => {
     );
 
     const [product, setProduct] = React.useState('');
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
     const handleChange = (event: any) => {
         setProduct(event.target.value);
     };
     return (
         <div className={classes.grow}>
-            <AppBar position="static">
+            <AppBar position="fixed" className={clsx(classes.appBar, {
+                [classes.appBarShift]: open,
+            })}>
                 <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        className={clsx(classes.menuButton, {
+                            [classes.hide]: open,
+                        })}
+                    >
+                        <MenuIcon />
+                    </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
                         Shop-IT
                     </Typography>
@@ -248,4 +295,4 @@ const Header: FunctionComponent<HeaderProps> = ({ user }) => {
         </div>
     );
 }
-export default Header;
+export default withRouter(Header);

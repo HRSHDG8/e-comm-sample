@@ -3,16 +3,14 @@ import classNames from './Body.module.css';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import Home from './home/Home';
 import Login from './login/Login';
-interface BodyProps {
-    setUser: Function
-}
-const Body: FunctionComponent<BodyProps> = ({ setUser }) => {
+
+const Body: FunctionComponent<any> = ({ user, setUser, open, setOpen }) => {
     return (
-        <div className={classNames.mainContent}>
+        <div className={classNames.mainContent} style={{ marginLeft: user !== '' ? (open ? '240px' : '60px') : '0px' }}>
             <Router>
                 <Switch>
-                    <Route exact path="/">
-                        <Home setUser={setUser}></Home>
+                    <Route exact path={["/", "home"]}>
+                        <Home open={open} setOpen={setOpen}></Home>
                     </Route>
                     <Route exact path="/login">
                         <Login setUser={setUser}></Login>

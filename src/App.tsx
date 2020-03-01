@@ -1,9 +1,10 @@
-import React, { FunctionComponent, useState } from 'react';
-import Header from './component/header/Header';
+import { blue, grey } from '@material-ui/core/colors';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { grey, blue, } from '@material-ui/core/colors';
-import Footer from './component/footer/Footer';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import Body from './component/body/Body';
+import Footer from './component/footer/Footer';
+import Header from './component/header/Header';
 const dark = createMuiTheme({
   palette: {
     primary: {
@@ -22,17 +23,26 @@ const light = createMuiTheme({
     },
   },
 });
-const App: FunctionComponent = () => {
+const App: FunctionComponent<RouteComponentProps> = ({ history }) => {
   const [user, setUser] = useState('');
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const userId = localStorage.getItem("user-id");
+    if (userId === null) {
+      history.push("login");
+    } else {
+      setUser(userId);
+    }
+  }, [history])
   return (
     <ThemeProvider theme={dark}>
-      <Header user={user} />
+      <Header user={user} setUser={setUser} open={open} setOpen={setOpen} />
       <ThemeProvider theme={light}>
-        <Body setUser={setUser} />
+        <Body setUser={setUser} open={open} setOpen={setOpen} user={user} />
       </ThemeProvider>
       <Footer />
     </ThemeProvider >
   );
 }
 
-export default App;
+export default withRouter(App);
