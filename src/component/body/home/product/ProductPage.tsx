@@ -8,8 +8,8 @@ const emptyProductList: ProductInterface[] = [{
     description: 'Haryanvi',
     img: shantam,
     price: 'INF',
-    quantity: 1,
-    wishlisted: true
+    quantity: 0,
+    wishlisted: false
 }, {
     id: 2,
     name: 'Copy Shantam',

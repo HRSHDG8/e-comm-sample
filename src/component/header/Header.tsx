@@ -157,7 +157,6 @@ const Header: FunctionComponent<any> = ({ user, setUser, history, open, setOpen,
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
@@ -199,7 +198,7 @@ const Header: FunctionComponent<any> = ({ user, setUser, history, open, setOpen,
                 >
                     <AccountCircle />
                 </IconButton>
-                <p>Profile</p>
+                <p>My Accout</p>
             </MenuItem>
         </Menu>
     );

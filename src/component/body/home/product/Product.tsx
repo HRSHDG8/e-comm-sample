@@ -30,7 +30,11 @@ const useStyles = makeStyles({
         height: 250,
         width: 250,
         borderRadius: 40,
-        position: 'absolute'
+        cursor: 'pointer',
+        boxShadow: '0 0 8px 4px rgba(0,0,0,0.3)',
+        '&:hover': {
+            boxShadow: '0 0 8px 4px rgba(0,0,0,0.5)'
+        }
     },
     intro: {
         display: 'flex',
@@ -42,6 +46,7 @@ const useStyles = makeStyles({
     imgCnt: {
         flex: '250px 1',
         height: '250px'
+
     },
     nameCnt: {
         flex: 1,
@@ -75,11 +80,12 @@ const useStyles = makeStyles({
         }
     },
     favourite: {
-        position: 'absolute',
         borderRadius: '50%',
-        border: '1px solid white',
+        border: '1px solid rgba(0,0,0,0.1)',
         background: 'white',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        display: 'inline-block',
+        fontSize: '15px'
     },
     favouriteBlank: {
         color: 'rgba(0,0,0,0.45)',
@@ -95,11 +101,11 @@ const useStyles = makeStyles({
     }
 });
 
-const ProductCard: FunctionComponent<any> = ({ product }) => {
+const ProductCard: FunctionComponent<any> = ({ product, history }) => {
     const [wishList, setWishListed] = useState(product.wishlisted);
     const classes = useStyles();
-    const open = (url?: string) => {
-        window.open(url, "_blank");
+    const open = (id: number) => {
+        history.push("/product/" + id);
     }
     const addToWishList = (productId: number) => {
         if (wishList) {
@@ -113,22 +119,28 @@ const ProductCard: FunctionComponent<any> = ({ product }) => {
         <Card className={classes.root}>
             <CardContent>
                 <div className={classes.intro}>
-                    <div className={classes.imgCnt}>
-                        <img className={classes.imageCircle} src={product.img} alt="productImage" />
-                        <div style={{ textAlign: 'end', display: 'inline-table', marginLeft: '205px', marginTop: '20px' }}>
-                            <FavoriteIcon onClick={() => { addToWishList(product.id) }} className={classes.favourite + " " + (wishList ? classes.favouriteFilled : classes.favouriteBlank)} />
-                        </div>
+                    <div className={classes.imgCnt} >
+                        <img className={classes.imageCircle} onClick={() => { open(product.id) }} src={product.img} alt="productImage" />
                     </div>
                 </div>
 
                 <div style={{ marginTop: '5px' }}>
-                    <span style={{ display: 'inline-block', width: '60%' }}><h3 style={{ margin: 0 }}>{product.name}</h3></span>
+                    <span style={{ display: 'inline-block', width: '60%' }}>
+                        <h3 style={{ margin: 0, display: 'inline-block' }}>{product.name}</h3>
+                        <FavoriteIcon onClick={() => { addToWishList(product.id) }} className={classes.favourite + " " + (wishList ? classes.favouriteFilled : classes.favouriteBlank)} />
+                    </span>
                     <span style={{ display: 'inline-block', width: '40%', textAlign: 'end' }}><h3 style={{ margin: 0 }}>&#8377;{product.price}</h3></span>
                 </div>
 
                 <CardActions style={{ padding: 0, marginTop: '5px' }}>
-                    <Button className={classes.button}><ShoppingCartIcon /> Add to Cart</Button>
-                    <Button className={classes.button} style={{ marginLeft: '27px' }}><ShopIcon /> Buy Now</Button>
+                    {product.quantity < 1 ?
+                        "Out of Stock"
+                        :
+                        <>
+                            <Button className={classes.button}><ShoppingCartIcon /> Add to Cart</Button>
+                            <Button className={classes.button} style={{ marginLeft: '27px' }}><ShopIcon /> Buy Now</Button>
+                        </>
+                    }
                 </CardActions>
             </CardContent>
         </Card>
