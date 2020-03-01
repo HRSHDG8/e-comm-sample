@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const Header: FunctionComponent<any> = ({ user, setUser, history, open, setOpen }) => {
+const Header: FunctionComponent<any> = ({ user, setUser, history, open, setOpen, product, setProduct }) => {
     const classes = { ...useStyles(), ...useClasses() };
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -204,7 +204,6 @@ const Header: FunctionComponent<any> = ({ user, setUser, history, open, setOpen 
         </Menu>
     );
 
-    const [product, setProduct] = React.useState('');
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -237,7 +236,7 @@ const Header: FunctionComponent<any> = ({ user, setUser, history, open, setOpen 
                         <>
                             <div className={classes.search}>
                                 <FormControl className={classes.formControl}>
-                                    <InputLabel id="demo-simple-select-label" className={classes.lable}>Product</InputLabel>
+                                    {product === '' ? <InputLabel id="demo-simple-select-label" className={classes.lable}>Product</InputLabel> : null}
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
@@ -245,9 +244,10 @@ const Header: FunctionComponent<any> = ({ user, setUser, history, open, setOpen 
                                         onChange={handleChange}
                                         className={classes.formControlSelect}
                                     >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                        <MenuItem value={''}>No Selection</MenuItem>
+                                        <MenuItem value={'10'}>Ten</MenuItem>
+                                        <MenuItem value={'20'}>Twenty</MenuItem>
+                                        <MenuItem value={'30'}>Thirty</MenuItem>
                                     </Select>
                                 </FormControl>
                             </div>

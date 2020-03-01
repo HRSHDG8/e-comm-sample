@@ -13,9 +13,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { blue } from '@material-ui/core/colors';
 import CodeIcon from '@material-ui/icons/Code';
 import InfoIcon from '@material-ui/icons/Info';
+import HomeIcon from '@material-ui/icons/Home';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import clsx from 'clsx';
 import React, { FunctionComponent } from 'react';
+import { withRouter } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -86,14 +88,16 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const LeftNavigation: FunctionComponent<any> = ({ open, setOpen }) => {
+const LeftNavigation: FunctionComponent<any> = ({ open, setOpen, history }) => {
     const classes = useStyles();
     const theme = useTheme();
 
     const handleDrawerClose = () => {
         setOpen(false);
     };
-
+    const route = (routeName: string) => {
+        history.push(routeName);
+    }
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -117,18 +121,18 @@ const LeftNavigation: FunctionComponent<any> = ({ open, setOpen }) => {
                 </div>
                 <Divider />
                 <List >
-                    {[{ label: 'Account', component: <AccountBoxIcon /> }, { label: 'Orders', component: <LocalShippingIcon /> }].map((listItem, index) => (
+                    {[{ label: 'Home', component: <HomeIcon />, route: '/' }, { label: 'Account', component: <AccountBoxIcon />, route: 'account' }, { label: 'Orders', component: <LocalShippingIcon />, route: 'orders' }].map((listItem, index) => (
                         <ListItem button key={index} style={{ color: 'white' }}>
-                            <ListItemIcon style={{ color: 'white' }}>{listItem.component}</ListItemIcon>
+                            <ListItemIcon onClick={() => { route(listItem.route) }} style={{ color: 'white' }}>{listItem.component}</ListItemIcon>
                             <ListItemText primary={listItem.label} />
                         </ListItem>
                     ))}
                 </List>
                 <Divider />
                 <List>
-                    {[{ label: 'Info', component: <InfoIcon /> }, { label: 'About Us', component: <CodeIcon /> }].map((listItem, index) => (
+                    {[{ label: 'Info', component: <InfoIcon />, route: 'info' }, { label: 'About Us', component: <CodeIcon />, route: 'about' }].map((listItem, index) => (
                         <ListItem button key={index} style={{ color: 'white' }}>
-                            <ListItemIcon style={{ color: 'white' }}>{listItem.component}</ListItemIcon>
+                            <ListItemIcon onClick={() => { route(listItem.route) }} style={{ color: 'white' }}>{listItem.component}</ListItemIcon>
                             <ListItemText primary={listItem.label} />
                         </ListItem>
                     ))}
@@ -137,4 +141,4 @@ const LeftNavigation: FunctionComponent<any> = ({ open, setOpen }) => {
         </div>
     );
 }
-export default LeftNavigation;
+export default withRouter(LeftNavigation);
