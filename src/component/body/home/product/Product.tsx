@@ -9,7 +9,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShopIcon from '@material-ui/icons/Shop';
 export type ProductInterface = {
-    id: number;
+    id: number | null;
     name: string;
     img: any;
     price: any;
