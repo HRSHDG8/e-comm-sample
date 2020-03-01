@@ -18,7 +18,7 @@ const useStyles = makeStyles({
         display: 'inline-flex',
         padding: '10px',
         margin: '10px',
-        height: 365,
+        height: 395,
         boxShadow: '0 0 9px 0px rgba(0,0,0,0.47)'
     },
     imageCircle: {

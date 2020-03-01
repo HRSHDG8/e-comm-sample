@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import { createMuiTheme, createStyles, makeStyles, Theme, ThemeProvider } from '@material-ui/core/styles';
 import React, { FunctionComponent } from 'react';
 import Carousel from './Carousel';
+import { tutorialSteps } from './home.products';
 const theme = createMuiTheme({
     palette: {
         primary: {
@@ -44,7 +45,7 @@ const LandingView: FunctionComponent = () => {
                         </Typography>
                     </div>
                     <div style={{ flex: '400px 0' }}>
-                        <Carousel />
+                        <Carousel content={tutorialSteps} />
                     </div>
                 </Paper>
                 <Paper elevation={10} style={{ padding: '10px', display: 'flex', height: 'calc(100vh - 492px)', boxShadow: '0 0 9px 0px rgba(0,0,0,0.47)' }}>

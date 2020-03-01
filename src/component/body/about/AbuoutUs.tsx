@@ -18,7 +18,11 @@ const AboutUs: FunctionComponent<any> = () => {
         image: deepak,
         company: 'JP Morgan Chase',
         linkedIn: 'https://www.linkedin.com/in/deodaardeepak/',
-        about: 'The best developer in the world, freelancer having delivered over 10+ projects.'
+        about: `I am an Artist and programming is the truest form of Art.
+
+        I can walk an extra mile to innovate as innovation is the key which makes you shine from rest.
+        
+        Coding , Sketching and Dreaming is my way of life - "Dream a dream no one dreamt of"`
     }, {
         fName: 'Shantam',
         lName: 'Mittal',
@@ -29,7 +33,7 @@ const AboutUs: FunctionComponent<any> = () => {
     }]
     return (
         <div>
-            {devs.map(dev => <Developer {...dev} />)}
+            {devs.map((dev, index) => <Developer key={index} {...dev} />)}
         </div>
     )
 }

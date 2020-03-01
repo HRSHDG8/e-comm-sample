@@ -10,7 +10,7 @@ const Home: FunctionComponent<any> = (props: any) => {
     })
     return (
         <>
-            {props.product ? <span>Product : {props.product}</span> : <LandingView />}
+            <LandingView />
         </>
     )
 }

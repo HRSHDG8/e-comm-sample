@@ -209,7 +209,13 @@ const Header: FunctionComponent<any> = ({ user, setUser, history, open, setOpen,
     };
 
     const handleChange = (event: any) => {
-        setProduct(event.target.value);
+        const val = event.target.value
+        setProduct(val)
+        if (val !== '') {
+            history.push("/productType/" + val);
+        } else {
+            history.push("/")
+        }
     };
     return (
         <div className={classes.grow}>

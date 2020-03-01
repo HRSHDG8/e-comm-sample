@@ -121,7 +121,7 @@ const LeftNavigation: FunctionComponent<any> = ({ open, setOpen, history }) => {
                 </div>
                 <Divider />
                 <List >
-                    {[{ label: 'Home', component: <HomeIcon />, route: '/' }, { label: 'Account', component: <AccountBoxIcon />, route: 'account' }, { label: 'Orders', component: <LocalShippingIcon />, route: 'orders' }].map((listItem, index) => (
+                    {[{ label: 'Home', component: <HomeIcon />, route: '/' }, { label: 'Account', component: <AccountBoxIcon />, route: '/account' }, { label: 'Orders', component: <LocalShippingIcon />, route: '/orders' }].map((listItem, index) => (
                         <ListItem button key={index} style={{ color: 'white' }}>
                             <ListItemIcon onClick={() => { route(listItem.route) }} style={{ color: 'white' }}>{listItem.component}</ListItemIcon>
                             <ListItemText primary={listItem.label} />
@@ -130,7 +130,7 @@ const LeftNavigation: FunctionComponent<any> = ({ open, setOpen, history }) => {
                 </List>
                 <Divider />
                 <List>
-                    {[{ label: 'Info', component: <InfoIcon />, route: 'info' }, { label: 'About Us', component: <CodeIcon />, route: 'about' }].map((listItem, index) => (
+                    {[{ label: 'Info', component: <InfoIcon />, route: '/info' }, { label: 'About Us', component: <CodeIcon />, route: '/about' }].map((listItem, index) => (
                         <ListItem button key={index} style={{ color: 'white' }}>
                             <ListItemIcon onClick={() => { route(listItem.route) }} style={{ color: 'white' }}>{listItem.component}</ListItemIcon>
                             <ListItemText primary={listItem.label} />
