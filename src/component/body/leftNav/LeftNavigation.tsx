@@ -10,6 +10,7 @@ import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/sty
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { blue } from '@material-ui/core/colors';
 import CodeIcon from '@material-ui/icons/Code';
 import InfoIcon from '@material-ui/icons/Info';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
@@ -78,7 +79,11 @@ const useStyles = makeStyles((theme: Theme) =>
             flexGrow: 1,
             padding: theme.spacing(3),
         },
-    }),
+        paper: {
+            background: blue[800],
+            color: blue[500]
+        }
+    })
 );
 
 const LeftNavigation: FunctionComponent<any> = ({ open, setOpen }) => {
@@ -99,22 +104,22 @@ const LeftNavigation: FunctionComponent<any> = ({ open, setOpen }) => {
                     [classes.drawerClose]: !open,
                 })}
                 classes={{
-                    paper: clsx({
+                    paper: clsx(classes.paper, {
                         [classes.drawerOpen]: open,
                         [classes.drawerClose]: !open,
                     }),
                 }}
             >
-                <div className={classes.toolbar}>
+                <div className={classes.toolbar} style={{ background: blue[900] }}>
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                     </IconButton>
                 </div>
                 <Divider />
-                <List>
+                <List >
                     {[{ label: 'Account', component: <AccountBoxIcon /> }, { label: 'Orders', component: <LocalShippingIcon /> }].map((listItem, index) => (
-                        <ListItem button key={index}>
-                            <ListItemIcon>{listItem.component}</ListItemIcon>
+                        <ListItem button key={index} style={{ color: 'white' }}>
+                            <ListItemIcon style={{ color: 'white' }}>{listItem.component}</ListItemIcon>
                             <ListItemText primary={listItem.label} />
                         </ListItem>
                     ))}
@@ -122,8 +127,8 @@ const LeftNavigation: FunctionComponent<any> = ({ open, setOpen }) => {
                 <Divider />
                 <List>
                     {[{ label: 'Info', component: <InfoIcon /> }, { label: 'About Us', component: <CodeIcon /> }].map((listItem, index) => (
-                        <ListItem button key={index}>
-                            <ListItemIcon>{listItem.component}</ListItemIcon>
+                        <ListItem button key={index} style={{ color: 'white' }}>
+                            <ListItemIcon style={{ color: 'white' }}>{listItem.component}</ListItemIcon>
                             <ListItemText primary={listItem.label} />
                         </ListItem>
                     ))}

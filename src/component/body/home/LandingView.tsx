@@ -37,15 +37,18 @@ const LandingView: FunctionComponent = () => {
     return (
         <ThemeProvider theme={theme}>
             <div className={classes.root}>
-                <Paper elevation={10} style={{ padding: '10px' }}>
-                    <div style={{ marginBottom: '10px' }}>
+                <Paper elevation={10} style={{ padding: '10px', display: 'flex', height: '373px' }}>
+                    <div style={{ flex: 1, marginRight: '10px', borderRight: '1px solid rgba(0,0,0,0.87)' }}>
                         <Typography variant="h4" style={{ textAlign: "center" }}>
                             Welcome to Shop - IT
                         </Typography>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <div style={{ flex: '400px 0' }}>
                         <Carousel />
                     </div>
+                </Paper>
+                <Paper elevation={10} style={{ padding: '10px', display: 'flex', height: 'calc(100vh - 492px)' }}>
+
                 </Paper>
             </div>
         </ThemeProvider>
