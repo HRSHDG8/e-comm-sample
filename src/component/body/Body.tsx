@@ -7,6 +7,7 @@ import LeftNavigation from './leftNav/LeftNavigation';
 import Login from './login/Login';
 import ProductPage from './home/product/ProductPage';
 import ProductDetail from './home/product/ProductDetail';
+import Admin from './admin/Admin';
 
 const Body: FunctionComponent<any> = ({ user, setUser, open, setOpen, product }) => {
 
@@ -29,6 +30,9 @@ const Body: FunctionComponent<any> = ({ user, setUser, open, setOpen, product })
                 </Route>
                 <Route path="/product/:id">
                     <ProductDetail />
+                </Route>
+                <Route path="/admin">
+                    <Admin />
                 </Route>
             </Switch>
         </div>

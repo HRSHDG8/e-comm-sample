@@ -14,9 +14,10 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import clsx from 'clsx';
+import { get, urls } from '../../rest/rest.service';
 const useClasses = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
@@ -118,10 +119,15 @@ const Header: FunctionComponent<any> = ({ user, setUser, history, open, setOpen,
     const classes = { ...useStyles(), ...useClasses() };
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
-
+    const [menu, setMenu] = React.useState<string[]>([]);
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+    useEffect(() => {
+        get(`${urls.productbase}${urls.product.byType}`)
+            .then(response => {
+                setMenu(response.data);
+            })
+    }, [])
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -250,9 +256,9 @@ const Header: FunctionComponent<any> = ({ user, setUser, history, open, setOpen,
                                         className={classes.formControlSelect}
                                     >
                                         <MenuItem value={''}>No Selection</MenuItem>
-                                        <MenuItem value={'10'}>Ten</MenuItem>
-                                        <MenuItem value={'20'}>Twenty</MenuItem>
-                                        <MenuItem value={'30'}>Thirty</MenuItem>
+                                        {menu.map((value: string, index: number) => {
+                                            return <MenuItem value={value} key={index}>{value}</MenuItem>
+                                        })}
                                     </Select>
                                 </FormControl>
                             </div>

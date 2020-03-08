@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import { blueGrey, lightBlue, blue, red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import { CardActions, Button } from '@material-ui/core';
+import { formatter } from '../../../../util/currency';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShopIcon from '@material-ui/icons/Shop';
@@ -23,14 +24,12 @@ const useStyles = makeStyles({
         display: 'inline-flex',
         padding: '10px',
         margin: '10px',
-        height: 355,
         boxShadow: '0 0 9px 0px rgba(0,0,0,0.47)'
     },
     imageCircle: {
         height: 250,
-        width: 250,
-        borderRadius: 40,
         cursor: 'pointer',
+        borderRadius: '5px',
         boxShadow: '0 0 8px 4px rgba(0,0,0,0.3)',
         '&:hover': {
             boxShadow: '0 0 8px 4px rgba(0,0,0,0.5)'
@@ -38,14 +37,13 @@ const useStyles = makeStyles({
     },
     intro: {
         display: 'flex',
-        background: blueGrey[700],
-        borderRadius: '55px',
-        width: '245px',
-        boxShadow: '0 0 9px 0px rgba(0,0,0,0.47)'
+        width: '245px'
     },
     imgCnt: {
         flex: '250px 1',
-        height: '250px'
+        height: '250px',
+        display: 'flex',
+        justifyContent: 'center'
 
     },
     nameCnt: {
@@ -129,7 +127,7 @@ const ProductCard: FunctionComponent<any> = ({ product, history }) => {
                         <h3 style={{ margin: 0, display: 'inline-block' }}>{product.name}</h3>
                         <FavoriteIcon onClick={() => { addToWishList(product.id) }} className={classes.favourite + " " + (wishList ? classes.favouriteFilled : classes.favouriteBlank)} />
                     </span>
-                    <span style={{ display: 'inline-block', width: '40%', textAlign: 'end' }}><h3 style={{ margin: 0 }}>&#8377;{product.price}</h3></span>
+                    <span style={{ display: 'inline-block', width: '40%', textAlign: 'end', verticalAlign: 'top' }}><h3 style={{ margin: 0 }}>&#8377;{formatter(product.price)}</h3></span>
                 </div>
 
                 <CardActions style={{ padding: 0, marginTop: '5px' }}>

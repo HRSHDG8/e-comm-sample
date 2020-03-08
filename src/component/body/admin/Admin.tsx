@@ -1,12 +1,13 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { get, urls } from '../../../../rest/rest.service';
-import ProductCard, { ProductInterface } from './Product';
+import { get, urls } from '../../../rest/rest.service';
+import { ProductInterface } from '../home/product/Product';
+import ProductAdmin from '../home/product/ProductAdmin';
 const emptyProductList: ProductInterface[] = [];
-const ProductPage: FunctionComponent<any> = ({ productType, history, match }) => {
+const Admin: FunctionComponent<any> = ({ productType, history, match }) => {
     const [productList, setProductList] = useState(emptyProductList);
     useEffect(() => {
-        get(`${urls.productbase}${urls.product.byType}/${match.params.type}`).then(response => {
+        get(`${urls.productbase}${urls.product.all}`).then(response => {
             console.log("Backend Repsonse", response.data);
             setProductList(response.data.map((product: ProductInterface) => {
                 product.wishlisted = localStorage.getItem('product' + product.id) !== null;
@@ -16,8 +17,8 @@ const ProductPage: FunctionComponent<any> = ({ productType, history, match }) =>
     }, [match.params.type]);
     return (
         <div>
-            {productList.map((product, index) => <ProductCard key={index} product={product} />)}
+            {productList.map((product, index) => <ProductAdmin key={index} product={product} add={false} />)}
         </div>
     )
 }
-export default withRouter(ProductPage);
+export default withRouter(Admin);

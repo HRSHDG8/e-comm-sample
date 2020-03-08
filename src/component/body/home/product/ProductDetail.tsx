@@ -1,11 +1,13 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Card, CardContent, makeStyles, Button } from '@material-ui/core';
-import { withRouter } from 'react-router-dom';
-import { ProductInterface } from './Product';
-import shantam from '../../../../images/profile/shantam.jpg';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import { Button, Card, CardContent, makeStyles } from '@material-ui/core';
 import ShopIcon from '@material-ui/icons/Shop';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { get, urls } from '../../../../rest/rest.service';
+import { ProductInterface } from './Product';
+import { formatter } from '../../../../util/currency';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import { red } from '@material-ui/core/colors';
 const useStyles = makeStyles({
     root: {
         width: 'calc(100vw - 100px)',
@@ -14,6 +16,26 @@ const useStyles = makeStyles({
         margin: '10px',
         height: 'calc(100vh - 110px)',
         boxShadow: '0 0 9px 2px rgba(0,0,0,0.47)'
+    },
+    favourite: {
+        borderRadius: '50%',
+        border: '1px solid rgba(0,0,0,0.1)',
+        background: 'white',
+        cursor: 'pointer',
+        display: 'inline-block',
+        fontSize: '15px'
+    },
+    favouriteBlank: {
+        color: 'rgba(0,0,0,0.45)',
+        '&:hover': {
+            color: 'rgba(0,0,0,0.65)'
+        }
+    },
+    favouriteFilled: {
+        color: red['A400'],
+        '&:hover': {
+            color: red['A700']
+        }
     }
 });
 const defProduct: ProductInterface = {
@@ -30,31 +52,35 @@ const ProductDetail: FunctionComponent<any> = ({ match }) => {
     const [product, setProduct] = useState(defProduct);
     useEffect(() => {
         //call product by id
-        const product: ProductInterface = {
-            id: 2,
-            name: 'Copy Shantam',
-            description: 'Haryanvi',
-            img: shantam,
-            price: '1000',
-            quantity: 3,
-            wishlisted: false
-        }
-        setProduct(product);
-        console.log(match.params.id);
+        get(`${urls.productbase}${urls.product.byId}${match.params.id}`)
+            .then(response => {
+                const product: ProductInterface = response.data;
+                product.wishlisted = localStorage.getItem('product' + product.id) !== null;
+                setProduct(product);
+            });
     }, [match.params.id]);
-
+    const addToWishList = (productId: number | null) => {
+        if (product.wishlisted) {
+            localStorage.removeItem('product' + productId);
+        } else {
+            localStorage.setItem('product' + productId, 'Y');
+        }
+        product.wishlisted = !product.wishlisted
+        setProduct({ ...product });
+    }
     return (
         <Card className={classes.root}>
             {product.id ?
                 <CardContent>
                     <div style={{ fontWeight: 'bold', fontSize: '2em' }}>
                         {product.name}
+                        <FavoriteIcon onClick={() => { addToWishList(product.id) }} className={classes.favourite + " " + (product.wishlisted ? classes.favouriteFilled : classes.favouriteBlank)} />
                     </div>
                     <div>
                         <div style={{ display: 'flex', width: 'calc(100vw - 145px)' }}>
                             <div style={{ flex: '400px 0' }}>
                                 <div>
-                                    <img src={product.img} style={{ width: '380px', borderRadius: '5px' }}></img>
+                                    <img src={product.img} alt={"Prouct"} style={{ height: '380px', borderRadius: '5px' }}></img>
                                 </div>
                                 <div>
                                     <Button ><ShoppingCartIcon /> Add to Cart</Button>
@@ -63,10 +89,10 @@ const ProductDetail: FunctionComponent<any> = ({ match }) => {
                             </div>
                             <div style={{ flex: 1 }}>
                                 <div>
-                                    Product Description
+                                    <h3>{product.description}</h3>
                                 </div>
                                 <div>
-                                    Others
+                                    <h4>Price : &#8377;{formatter(product.price)}</h4>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +103,7 @@ const ProductDetail: FunctionComponent<any> = ({ match }) => {
                     Product not found
             </CardContent>
             }
-        </Card>
+        </Card >
     )
 }
 

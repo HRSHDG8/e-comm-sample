@@ -14,6 +14,7 @@ import { blue } from '@material-ui/core/colors';
 import CodeIcon from '@material-ui/icons/Code';
 import InfoIcon from '@material-ui/icons/Info';
 import HomeIcon from '@material-ui/icons/Home';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import clsx from 'clsx';
 import React, { FunctionComponent } from 'react';
@@ -130,7 +131,7 @@ const LeftNavigation: FunctionComponent<any> = ({ open, setOpen, history }) => {
                 </List>
                 <Divider />
                 <List>
-                    {[{ label: 'Info', component: <InfoIcon />, route: '/info' }, { label: 'About Us', component: <CodeIcon />, route: '/about' }].map((listItem, index) => (
+                    {[{ label: 'Admin', component: <SupervisorAccountIcon />, route: '/admin' }, { label: 'Info', component: <InfoIcon />, route: '/info' }, { label: 'About Us', component: <CodeIcon />, route: '/about' }].map((listItem, index) => (
                         <ListItem button key={index} style={{ color: 'white' }}>
                             <ListItemIcon onClick={() => { route(listItem.route) }} style={{ color: 'white' }}>{listItem.component}</ListItemIcon>
                             <ListItemText primary={listItem.label} />

@@ -28,8 +28,7 @@ const useStyles = makeStyles(theme => ({
         height: 255,
         display: 'block',
         maxWidth: 400,
-        overflow: 'hidden',
-        width: '100%',
+        overflow: 'hidden'
     },
 }));
 
@@ -63,7 +62,7 @@ const Carousel: FunctionComponent<any> = ({ content }: any) => {
                 enableMouseEvents
             >
                 {content.map((step: any, index: number) => (
-                    <div key={step.label}>
+                    <div key={step.label} style={{ display: 'flex', justifyContent: 'center' }}>
                         {Math.abs(activeStep - index) <= 2 ? (
                             <img className={classes.img} src={step.imgPath} alt={step.label} />
                         ) : null}
